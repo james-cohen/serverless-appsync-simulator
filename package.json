@@ -2,9 +2,14 @@
   "name": "serverless-appsync-simulator",
   "description": "Serverless Plugin to run AWS AppSync GraphQL API localy with Lambda resolvers",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/node": "^20.12.12",
     "@types/serverless": "^3.12.22",
+    "tsc": "^2.0.4",
     "typescript": "^5.3.3"
   },
   "dependencies": {
