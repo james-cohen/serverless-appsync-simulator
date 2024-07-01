@@ -4,15 +4,12 @@
   "license": "MIT",
   "author": "james-cohen",
   "scripts": {
-    "clone:explorer": "bash scripts/clone-graphiql-explorer",
-    "build:explorer": "cd amplify-explorer-clone && yarn run build && cd ../",
-    "build": "bash scripts/update-graphiql-explorer.sh && tsc"
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.12",
     "@types/serverless": "^3.12.22",
-    "tsc": "^2.0.4",
     "typescript": "^5.3.3"
   },
   "dependencies": {
