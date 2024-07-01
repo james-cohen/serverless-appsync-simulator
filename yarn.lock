@@ -742,9 +742,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@james-cohen/amplify-appsync-simulator@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@james-cohen/amplify-appsync-simulator@npm:1.1.0"
+"@james-cohen/amplify-appsync-simulator@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@james-cohen/amplify-appsync-simulator@npm:1.1.1"
   dependencies:
     "@aws-amplify/amplify-cli-core": "npm:4.3.9"
     "@aws-amplify/amplify-prompts": "npm:2.8.6"
@@ -773,7 +773,7 @@ __metadata:
     ulid: "npm:^2.3.0"
     uuid: "npm:^8.3.2"
     ws: "npm:^8.5.0"
-  checksum: 10c0/a38ce1029b95a413df8ebd3bccd4a337df4fe81e93a2151b1790ac0f4d3a9a9b0332380c8690e7847dbc96a2997381b80c641b226308d2a80945f2958163d155
+  checksum: 10c0/21d0e4ce43606dfb228896ec2ed8b92a0b214d72822ae21a39a821355d6aa7469ade8c4f49245dd25baf7381daa6b0ae5537723a7b7d27cf19c31f01fce5376a
   languageName: node
   linkType: hard
 
@@ -782,7 +782,7 @@ __metadata:
   resolution: "@james-cohen/serverless-appsync-simulator@workspace:."
   dependencies:
     "@aws-sdk/client-lambda": "npm:^3.606.0"
-    "@james-cohen/amplify-appsync-simulator": "npm:^1.1.0"
+    "@james-cohen/amplify-appsync-simulator": "npm:^1.1.1"
     "@ngrok/ngrok": "npm:^1.3.0"
     "@types/express": "npm:^4.17.21"
     "@types/node": "npm:^20.12.12"
