@@ -2,11 +2,9 @@ import { decodeJwt, SignJWT, jwtVerify, JWTPayload } from 'jose';
 
 export async function generateToken(decodedToken: string | object): Promise<string> {
   try {
-    if (typeof decodedToken === 'string') {
-      decodedToken = JSON.parse(decodedToken);
-    }
+    const decoded: JWTPayload = typeof decodedToken === 'string' ? JSON.parse(decodedToken) : decodedToken;
     const secret = new TextEncoder().encode('open-secrete');
-    const token = await new SignJWT(decodedToken as JWTPayload).setProtectedHeader({ alg: 'HS256' }).sign(secret);
+    const token = await new SignJWT(decoded).setProtectedHeader({ alg: 'HS256' }).sign(secret);
     await jwtVerify(token, secret);
     return token;
   } catch (e) {
@@ -38,5 +36,5 @@ export async function refreshToken(token: string, issuer?: string): Promise<stri
     tokenObj.iss = issuer;
   }
   tokenObj.exp = Math.floor(Date.now() / 100 + 20000);
-  return await generateToken(JSON.stringify(tokenObj));
+  return generateToken(JSON.stringify(tokenObj));
 }

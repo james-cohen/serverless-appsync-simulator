@@ -17,6 +17,7 @@ const AUTH_TYPE_TO_NAME = {
   API_KEY: 'API Key',
   OPENID_CONNECT: 'Open ID',
   AWS_IAM: 'IAM',
+  AWS_LAMBDA: 'Lambda Auth'
 };
 
 type AmplifyAppSyncSimulatorAuthInfo = {
@@ -224,7 +225,7 @@ class App extends Component<{}, State> {
     const headers = {};
     if (this.state.currentAuthMode === AUTH_MODE.API_KEY) {
       headers['x-api-key'] = this.state.credentials.apiKey;
-    } else if (this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS) {
+    } else if (this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS || this.state.currentAuthMode === AUTH_MODE.AWS_LAMBDA) {
       headers['Authorization'] = this.state.credentials.cognitoJWTToken;
     } else if (this.state.currentAuthMode === AUTH_MODE.OPENID_CONNECT) {
       headers['Authorization'] = this.state.credentials.oidcJWTToken;
@@ -242,7 +243,7 @@ class App extends Component<{}, State> {
     if (credentials.authMode === 'API_KEY') {
       newState['apiKey'] = credentials.apiKey;
       window.localStorage.setItem(LOCAL_STORAGE_KEY_NAMES.apiKey, credentials.apiKey);
-    } else if (credentials.authMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS) {
+    } else if (credentials.authMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS || credentials.authMode === AUTH_MODE.AWS_LAMBDA) {
       newState['cognitoJWTToken'] = credentials.cognitoToken;
       window.localStorage.setItem(LOCAL_STORAGE_KEY_NAMES.cognitoToken, credentials.cognitoToken);
     } else if (credentials.authMode === AUTH_MODE.OPENID_CONNECT) {
@@ -272,7 +273,7 @@ class App extends Component<{}, State> {
       credentials['apiKey'] = DEFAULT_API_INFO.apiKey;
     }
 
-    if (possibleAuth.includes('AMAZON_COGNITO_USER_POOLS')) {
+    if (possibleAuth.includes('AMAZON_COGNITO_USER_POOLS') || possibleAuth.includes('AWS_LAMBDA')) {
       let token = window.localStorage.getItem(LOCAL_STORAGE_KEY_NAMES.cognitoToken);
       if (token) {
         credentials['cognitoJWTToken'] = await refreshToken(token);

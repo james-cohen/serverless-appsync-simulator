@@ -7,6 +7,7 @@ export enum AUTH_MODE {
   AMAZON_COGNITO_USER_POOLS = 'AMAZON_COGNITO_USER_POOLS',
   OPENID_CONNECT = 'OPENID_CONNECT',
   AWS_IAM = 'AWS_IAM',
+  AWS_LAMBDA = 'AWS_LAMBDA',
 }
 
 type State = {
@@ -14,6 +15,7 @@ type State = {
   currentOIDCToken: string;
   currentOIDCTokenDecoded?: string;
   currentAuthMode: AUTH_MODE;
+  sub?: string;
   userName?: string;
   userGroups: string[];
   email?: string;
@@ -41,6 +43,7 @@ export class AuthModal extends Component<Props, State> {
     currentCognitoToken: '',
     currentOIDCTokenDecoded: '',
     currentOIDCToken: '',
+    sub: '',
     userName: '',
     issuer: '',
     userGroups: [],
@@ -59,6 +62,7 @@ export class AuthModal extends Component<Props, State> {
 
     const decodedToken = this.parseJWTToken(this.props.currentCognitoToken) || {};
     let state = {
+      sub: decodedToken['sub'] || '',
       userName: decodedToken['cognito:username'] || '',
       userGroups: decodedToken['cognito:groups'] || [],
       issuer: decodedToken['iss'],
@@ -102,6 +106,7 @@ export class AuthModal extends Component<Props, State> {
     this.onGenerate = this.onGenerate.bind(this);
     this.changeAPIKey = this.changeAPIKey.bind(this);
     this.changeEmail = this.changeEmail.bind(this);
+    this.onSubChange = this.onSubChange.bind(this);
     this.onUserNameChange = this.onUserNameChange.bind(this);
     this.onOIDCTokenChange = this.onOIDCTokenChange.bind(this);
     this.onAuthModeChange = this.onAuthModeChange.bind(this);
@@ -111,7 +116,10 @@ export class AuthModal extends Component<Props, State> {
     const result = {
       authMode: this.state.currentAuthMode,
       apiKey: this.state.currentAuthMode === AUTH_MODE.API_KEY ? this.state.apiKey : null,
-      cognitoToken: this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS ? this.state.currentCognitoToken : null,
+      cognitoToken:
+        this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS || this.state.currentAuthMode === AUTH_MODE.AWS_LAMBDA
+        ? this.state.currentCognitoToken
+        : null,
       OIDCToken: this.state.currentAuthMode === AUTH_MODE.OPENID_CONNECT ? this.state.currentOIDCToken : null,
       // We have no data for IAM to store, so we just store a constant string for now
       iam: this.state.currentAuthMode === AUTH_MODE.AWS_IAM ? 'AWS4-HMAC-SHA256 IAMAuthorized' : null,
@@ -130,6 +138,12 @@ export class AuthModal extends Component<Props, State> {
   onGroupAdd(ev, data) {
     this.setState({
       possibleGroups: [...this.state.possibleGroups, data.value],
+    });
+  }
+
+  onSubChange(ev, data) {
+    this.setState({
+      sub: data.value,
     });
   }
 
@@ -187,13 +201,17 @@ export class AuthModal extends Component<Props, State> {
           </Form.Field>
         </>
       );
-    } else if (this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS) {
+    } else if (this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS || this.state.currentAuthMode === AUTH_MODE.AWS_LAMBDA) {
       actionText = 'Generate Token';
       formContent = (
         <>
           <Form.Field>
             <label>Username</label>
             <Input placeholder="User Name" value={this.state.userName} onChange={this.onUserNameChange} />
+          </Form.Field>
+          <Form.Field>
+            <label>Sub</label>
+            <Input placeholder="sub" value={this.state.sub} onChange={this.onSubChange} />
           </Form.Field>
           <Form.Field>
             <label>Groups</label>
@@ -309,7 +327,7 @@ export class AuthModal extends Component<Props, State> {
       const newState = {
         isOpen: false,
       };
-      if (this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS) {
+      if (this.state.currentAuthMode === AUTH_MODE.AMAZON_COGNITO_USER_POOLS || this.state.currentAuthMode === AUTH_MODE.AWS_LAMBDA) {
         newState['currentCognitoToken'] = await this.generateCognitoJWTToken();
       } else if (this.state.currentAuthMode === AUTH_MODE.OPENID_CONNECT) {
         newState['currentOIDCToken'] = await this.generateOIDCJWTToken();
@@ -344,6 +362,7 @@ export class AuthModal extends Component<Props, State> {
       email: this.state.email,
       ...additionalFields,
     };
+    tokenPayload['sub'] = this.state.sub;
     tokenPayload['cognito:username'] = this.state.userName;
     tokenPayload['cognito:groups'] = this.state.userGroups;
     tokenPayload['auth_time'] = Math.floor(Date.now() / 1000); // In seconds
@@ -355,7 +374,7 @@ export class AuthModal extends Component<Props, State> {
   async generateOIDCJWTToken() {
     const tokenPayload = this.state.currentOIDCTokenDecoded || '';
     try {
-      return await generateToken(tokenPayload);
+      return generateToken(tokenPayload);
     } catch (e) {
       this.setState({
         oidcTokenError: e.message,
