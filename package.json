@@ -1,10 +1,19 @@
 {
   "name": "@james-cohen/serverless-appsync-simulator",
+  "version": "1.0.1",
   "description": "Serverless Plugin to run AWS AppSync GraphQL API locally with Lambda resolvers",
   "license": "MIT",
   "author": "james-cohen",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/james-cohen/serverless-appsync-simulator.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
