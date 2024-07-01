@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { AppSyncMockFile } from '@aws-amplify/amplify-appsync-simulator';
+import { AppSyncMockFile } from '@james-cohen/amplify-appsync-simulator';
 import { AppsyncConfig } from './models';
 
 export const defaultRequestTemplate = `{}`;

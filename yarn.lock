@@ -5,41 +5,6 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@aws-amplify/amplify-appsync-simulator@npm:^2.16.4":
-  version: 2.16.4
-  resolution: "@aws-amplify/amplify-appsync-simulator@npm:2.16.4"
-  dependencies:
-    "@aws-amplify/amplify-cli-core": "npm:4.3.9"
-    "@aws-amplify/amplify-prompts": "npm:2.8.6"
-    "@graphql-tools/schema": "npm:^8.3.1"
-    "@graphql-tools/utils": "npm:^8.5.1"
-    amplify-velocity-template: "npm:1.4.14"
-    aws-sdk: "npm:^2.1464.0"
-    chalk: "npm:^4.1.1"
-    cors: "npm:^2.8.5"
-    dataloader: "npm:^2.0.0"
-    express: "npm:^4.17.3"
-    get-port: "npm:^5.1.1"
-    graphql: "npm:^15.5.0"
-    graphql-iso-date: "npm:^3.6.1"
-    graphql-subscriptions: "npm:^1.1.0"
-    ip: "npm:^1.1.9"
-    js-string-escape: "npm:^1.0.1"
-    jwt-decode: "npm:^2.2.0"
-    libphonenumber-js: "npm:1.9.47"
-    lodash: "npm:^4.17.21"
-    moment: "npm:^2.24.0"
-    moment-jdateformatparser: "npm:^1.2.1"
-    moment-timezone: "npm:0.5.35"
-    promise-toolbox: "npm:^0.20.0"
-    slash: "npm:^3.0.0"
-    ulid: "npm:^2.3.0"
-    uuid: "npm:^8.3.2"
-    ws: "npm:^8.5.0"
-  checksum: 10c0/243faf3fc89565922e90c457739a746d7d20d6967f85d875b763a6c62326555f8012edf2305122c0b53f91de15a81b2e7dacff2e9824c15feb69edb72b0a36ce
-  languageName: node
-  linkType: hard
-
 "@aws-amplify/amplify-cli-core@npm:4.3.9":
   version: 4.3.9
   resolution: "@aws-amplify/amplify-cli-core@npm:4.3.9"
@@ -777,12 +742,47 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@james-cohen/amplify-appsync-simulator@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@james-cohen/amplify-appsync-simulator@npm:1.0.0"
+  dependencies:
+    "@aws-amplify/amplify-cli-core": "npm:4.3.9"
+    "@aws-amplify/amplify-prompts": "npm:2.8.6"
+    "@graphql-tools/schema": "npm:^8.3.1"
+    "@graphql-tools/utils": "npm:^8.5.1"
+    amplify-velocity-template: "npm:1.4.14"
+    aws-sdk: "npm:^2.1464.0"
+    chalk: "npm:^4.1.1"
+    cors: "npm:^2.8.5"
+    dataloader: "npm:^2.0.0"
+    express: "npm:^4.17.3"
+    get-port: "npm:^5.1.1"
+    graphql: "npm:^15.5.0"
+    graphql-iso-date: "npm:^3.6.1"
+    graphql-subscriptions: "npm:^1.1.0"
+    ip: "npm:^1.1.9"
+    js-string-escape: "npm:^1.0.1"
+    jwt-decode: "npm:^2.2.0"
+    libphonenumber-js: "npm:1.9.47"
+    lodash: "npm:^4.17.21"
+    moment: "npm:^2.24.0"
+    moment-jdateformatparser: "npm:^1.2.1"
+    moment-timezone: "npm:0.5.35"
+    promise-toolbox: "npm:^0.20.0"
+    slash: "npm:^3.0.0"
+    ulid: "npm:^2.3.0"
+    uuid: "npm:^8.3.2"
+    ws: "npm:^8.5.0"
+  checksum: 10c0/1eaa7fb61ccb36e3c48331121461bb7f93f854079da097c4b33d6476278eae636c0bce7dcaaa4566abd0cdd41ea37e13f2baca91e79513fdaf4c1c9f0f2f52ae
+  languageName: node
+  linkType: hard
+
 "@james-cohen/serverless-appsync-simulator@workspace:.":
   version: 0.0.0-use.local
   resolution: "@james-cohen/serverless-appsync-simulator@workspace:."
   dependencies:
-    "@aws-amplify/amplify-appsync-simulator": "npm:^2.16.4"
     "@aws-sdk/client-lambda": "npm:^3.606.0"
+    "@james-cohen/amplify-appsync-simulator": "npm:^1.0.0"
     "@ngrok/ngrok": "npm:^1.3.0"
     "@types/express": "npm:^4.17.21"
     "@types/node": "npm:^20.12.12"

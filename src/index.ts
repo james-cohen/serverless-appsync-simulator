@@ -1,4 +1,4 @@
-import { AmplifyAppSyncSimulator } from '@aws-amplify/amplify-appsync-simulator';
+import { AmplifyAppSyncSimulator } from '@james-cohen/amplify-appsync-simulator';
 import Serverless from 'serverless';
 import { getSimulatorConfig } from './config';
 import { createLocalTunnel, stopLocalTunnel } from './localhostTunnel';

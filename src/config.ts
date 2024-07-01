@@ -1,7 +1,7 @@
 import {
   AmplifyAppSyncSimulatorAuthenticationType,
   AmplifyAppSyncSimulatorConfig,
-} from '@aws-amplify/amplify-appsync-simulator';
+} from '@james-cohen/amplify-appsync-simulator';
 import { constructGraphqlSchema } from './schema';
 import { generateDataSources } from './dataSources';
 import { generateResolvers } from './resolvers';

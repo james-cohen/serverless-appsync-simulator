@@ -2,7 +2,7 @@ import {
   AppSyncSimulatorPipelineResolverConfig,
   AppSyncSimulatorUnitResolverConfig,
   RESOLVER_KIND,
-} from '@aws-amplify/amplify-appsync-simulator';
+} from '@james-cohen/amplify-appsync-simulator';
 import { AppsyncConfig } from './models';
 import {
   defaultRequestTemplate,

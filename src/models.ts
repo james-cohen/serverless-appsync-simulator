@@ -1,7 +1,7 @@
 import {
   RESOLVER_KIND,
   AmplifyAppSyncSimulatorAuthenticationType,
-} from '@aws-amplify/amplify-appsync-simulator';
+} from '@james-cohen/amplify-appsync-simulator';
 
 interface LambdaConfig {
   functionArn: string;

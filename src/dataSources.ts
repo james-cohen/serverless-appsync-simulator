@@ -3,7 +3,7 @@ import {
   AppSyncSimulatorDataSourceConfig,
   AppSyncSimulatorDataSourceLambdaConfig,
   AppSyncSimulatorDataSourceNoneConfig,
-} from '@aws-amplify/amplify-appsync-simulator';
+} from '@james-cohen/amplify-appsync-simulator';
 import { AppsyncConfig } from './models';
 
 const endpoint = 'http://localhost:3002';

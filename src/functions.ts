@@ -1,4 +1,4 @@
-import { AppSyncSimulatorFunctionsConfig } from '@aws-amplify/amplify-appsync-simulator';
+import { AppSyncSimulatorFunctionsConfig } from '@james-cohen/amplify-appsync-simulator';
 import { AppsyncConfig } from './models';
 import { transformTemplateLocation } from './vtl';
 
