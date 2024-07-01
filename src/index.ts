@@ -65,7 +65,7 @@ class AppsyncSimulator {
     this.simulator
       .start()
       .then(() => {
-        console.log('appsync simulator running on localhost port', this.config.port);
+        console.log('Appsync simulator running on localhost port:', this.config.port);
         if (this.config.tunnel) {
           createLocalTunnel({
             port: this.config.port,
@@ -74,14 +74,14 @@ class AppsyncSimulator {
           })
             .then((listener) => {
               this.tunnelUrl = listener.url() || '';
-              console.log('Ngrok tunnel running at url', this.tunnelUrl || 'unknown');
+              console.log('Ngrok tunnel running at url:', this.tunnelUrl || 'unknown');
             })
             .catch((err) => console.warn('Error creating ngrok tunnel:', err?.message || 'Unknown error'));
         }
       })
       .catch((err) => {
         console.warn(err);
-        this.simulator.stop().then(() => console.log('appsync simulator stopped'));
+        this.simulator.stop().then(() => console.log('Appsync simulator stopped'));
         if (this.tunnelUrl) {
           stopLocalTunnel(this.tunnelUrl)
             .then(() => console.log('Ngrok tunnel at ', this.tunnelUrl, 'stopped'))
@@ -91,7 +91,7 @@ class AppsyncSimulator {
   }
 
   teardownServer() {
-    this.simulator.stop().then(() => console.log('appsync simulator stopped'));
+    this.simulator.stop().then(() => console.log('Appsync simulator stopped'));
     if (this.tunnelUrl) {
       stopLocalTunnel(this.tunnelUrl)
         .then(() => console.log('Ngrok tunnel at ', this.tunnelUrl, 'stopped'))
