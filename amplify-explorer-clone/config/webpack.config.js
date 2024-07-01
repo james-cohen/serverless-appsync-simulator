@@ -273,6 +273,7 @@ module.exports = function (webpackEnv) {
         util: require.resolve('util/'),
         crypto: require.resolve('crypto-browserify'),
         buffer: require.resolve('buffer/'),
+        punycode: false
       },
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
