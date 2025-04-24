@@ -25,7 +25,7 @@ async function invokeLambdaFunction(
 
 export function generateDataSources(config: AppsyncConfig) {
   const dataSources: AppSyncSimulatorDataSourceConfig[] = [];
-  const dataSourceConfig = config.dataSources || {};
+  const dataSourceConfig = config.dataSources || [];
   dataSourceConfig.forEach((grp) => {
     Object.entries(grp).forEach(([name, val]) => {
       if (val.type === 'AWS_LAMBDA') {
