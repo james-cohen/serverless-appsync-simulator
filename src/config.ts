@@ -8,10 +8,12 @@ import { generateResolvers } from './resolvers';
 import { AppsyncConfig } from './models';
 import { generateFunctions } from './functions';
 import { loadMappingTemplates } from './vtl';
+import Serverless from 'serverless';
 
 export function getSimulatorConfig(
-  config: AppsyncConfig,
+  sls: Serverless,
 ): AmplifyAppSyncSimulatorConfig {
+  const config: AppsyncConfig = sls.service.initialServerlessConfig.appSync;
   return {
     appSync: {
       defaultAuthenticationType: {
@@ -26,7 +28,7 @@ export function getSimulatorConfig(
     },
     functions: generateFunctions(config),
     schema: { content: constructGraphqlSchema(config) },
-    dataSources: generateDataSources(config),
+    dataSources: generateDataSources(config, sls.service),
     resolvers: generateResolvers(config),
     mappingTemplates: loadMappingTemplates(config),
   };

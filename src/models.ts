@@ -3,9 +3,15 @@ import {
   AmplifyAppSyncSimulatorAuthenticationType,
 } from '@james-cohen/amplify-appsync-simulator';
 
-interface LambdaConfig {
+interface AuthorizerConfig {
   functionArn: string;
   authorizerResultTtlInSeconds?: number;
+}
+
+interface FunctionConfig {
+  handler: string;
+  environment?: Record<string, string>;
+  timeout?: number;
 }
 
 interface RelationalDatabaseConfig {
@@ -19,7 +25,9 @@ interface DataSourceLambdaConfig {
   type: 'AWS_LAMBDA';
   description: string;
   config: {
-    functionArn: string;
+    serviceRoleArn?: string;
+    functionArn?: string;
+    function?: FunctionConfig;
   };
 }
 
@@ -44,19 +52,20 @@ interface PipelineFunction {
 }
 
 interface Resolver {
+  type?: string;
+  field?: string;
   kind: RESOLVER_KIND;
-  dataSource?: string;
+  dataSource?: string | DataSourceConfig;
   code?: string;
   functions?: string[];
 }
-type Resolvers = Record<string, Resolver>;
 
 export interface AppsyncConfig {
   name: string;
   schema: string[];
   authentication: {
     type: AmplifyAppSyncSimulatorAuthenticationType;
-    config: LambdaConfig;
+    config: AuthorizerConfig;
   };
   substitutions?: Record<string, string>;
   dataSources?: Array<Record<string, DataSourceConfig>> | Record<string, DataSourceConfig>;
