@@ -58,8 +58,8 @@ export interface AppsyncConfig {
     type: AmplifyAppSyncSimulatorAuthenticationType;
     config: LambdaConfig;
   };
-  substitutions: Record<string, string>;
-  dataSources: Array<Record<string, DataSourceConfig>>;
-  pipelineFunctions: Array<Record<string, PipelineFunction>>;
-  resolvers: Resolvers[];
+  substitutions?: Record<string, string>;
+  dataSources?: Array<Record<string, DataSourceConfig>> | Record<string, DataSourceConfig>;
+  pipelineFunctions?: Array<Record<string, PipelineFunction>> | Record<string, PipelineFunction>;
+  resolvers: Array<Record<string, Resolver>> | Record<string, Resolver>;
 }
