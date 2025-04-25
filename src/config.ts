@@ -1,24 +1,23 @@
-import {
-  AmplifyAppSyncSimulatorAuthenticationType,
-  AmplifyAppSyncSimulatorConfig,
-} from '@james-cohen/amplify-appsync-simulator';
-import { constructGraphqlSchema } from './schema';
-import { generateDataSources } from './dataSources';
-import { generateResolvers } from './resolvers';
-import { AppsyncConfig } from './models';
-import { generateFunctions } from './functions';
+import type { AmplifyAppSyncSimulatorConfig } from '@james-cohen/amplify-appsync-simulator';
+import { AmplifyAppSyncSimulatorAuthenticationType } from '@james-cohen/amplify-appsync-simulator';
+import constructGraphqlSchema from './schema';
+import generateDataSources from './dataSources';
+import generateResolvers from './resolvers';
+import type { AppsyncConfig } from './models';
+import generateFunctions from './functions';
 import { loadMappingTemplates } from './vtl';
 
-export function getSimulatorConfig(
+export default function getSimulatorConfig(
   config: AppsyncConfig,
 ): AmplifyAppSyncSimulatorConfig {
   return {
     appSync: {
       defaultAuthenticationType: {
-        authenticationType: AmplifyAppSyncSimulatorAuthenticationType.AWS_LAMBDA,
+        authenticationType:
+          AmplifyAppSyncSimulatorAuthenticationType.AWS_LAMBDA,
         lambdaAuthorizerConfig: {
-          AuthorizerUri: 'test'
-        }
+          AuthorizerUri: 'test',
+        },
       },
       apiKey: 'da2-fakeApiId123456',
       name: 'test',

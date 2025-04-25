@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { globSync } from 'glob';
-import { AppsyncConfig } from './models';
+import type { AppsyncConfig } from './models';
 
 function getFilesFromGlobs(globs: string[]) {
   const allFiles: string[] = [];
@@ -22,7 +22,7 @@ function getFilesFromGlobs(globs: string[]) {
   return new Set([...allFiles]);
 }
 
-export function constructGraphqlSchema(config: AppsyncConfig) {
+export default function constructGraphqlSchema(config: AppsyncConfig) {
   const schemaPaths = getFilesFromGlobs(config.schema);
   let schema = '';
   schemaPaths.forEach((path) => {

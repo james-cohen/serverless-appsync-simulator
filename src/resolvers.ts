@@ -1,21 +1,21 @@
-import {
+import type {
   AppSyncSimulatorPipelineResolverConfig,
   AppSyncSimulatorUnitResolverConfig,
-  RESOLVER_KIND,
 } from '@james-cohen/amplify-appsync-simulator';
-import { AppsyncConfig } from './models';
+import { RESOLVER_KIND } from '@james-cohen/amplify-appsync-simulator';
+import type { AppsyncConfig } from './models';
 import {
   defaultRequestTemplate,
   defaultResponseTemplate,
   transformTemplateLocation,
 } from './vtl';
 
-export function generateResolvers(config: AppsyncConfig) {
+export default function generateResolvers(config: AppsyncConfig) {
   const resolvers: (
     | AppSyncSimulatorPipelineResolverConfig
     | AppSyncSimulatorUnitResolverConfig
   )[] = [];
-  Object.values(config.resolvers || {}).forEach((grp) => {
+  Object.values(config.resolvers).forEach((grp) => {
     Object.entries(grp).forEach(([id, val]) => {
       const [typeName, fieldName] = id.split('.');
       const { kind, functions, dataSource, code } = val;

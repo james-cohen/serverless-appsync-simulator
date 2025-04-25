@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import { AppSyncMockFile } from '@james-cohen/amplify-appsync-simulator';
-import { AppsyncConfig } from './models';
+import type { AppSyncMockFile } from '@james-cohen/amplify-appsync-simulator';
+import type { AppsyncConfig } from './models';
 
 export const defaultRequestTemplate = `{}`;
 export const defaultResponseTemplate = `$util.toJson($ctx.prev.result)`;
@@ -15,7 +15,7 @@ export function transformTemplateLocation(path: string, type: 'req' | 'res') {
 
 export function loadMappingTemplates(config: AppsyncConfig) {
   const templatePaths: string[] = [];
-  Object.values(config.resolvers || {}).forEach((grp) => {
+  Object.values(config.resolvers).forEach((grp) => {
     Object.values(grp).forEach((val) => {
       const { code } = val;
       if (code) {

@@ -4,9 +4,13 @@ type LocalTunnelInput = {
   port: number;
   authtoken?: string;
   domain?: string;
-}
+};
 
-export async function createLocalTunnel({ port, authtoken, domain }: LocalTunnelInput) {
+export async function createLocalTunnel({
+  port,
+  authtoken,
+  domain,
+}: LocalTunnelInput) {
   return ngrok.connect({
     port,
     authtoken,

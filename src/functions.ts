@@ -1,8 +1,8 @@
-import { AppSyncSimulatorFunctionsConfig } from '@james-cohen/amplify-appsync-simulator';
-import { AppsyncConfig } from './models';
+import type { AppSyncSimulatorFunctionsConfig } from '@james-cohen/amplify-appsync-simulator';
+import type { AppsyncConfig } from './models';
 import { transformTemplateLocation } from './vtl';
 
-export function generateFunctions(config: AppsyncConfig) {
+export default function generateFunctions(config: AppsyncConfig) {
   const functions: AppSyncSimulatorFunctionsConfig[] = [];
   Object.values(config.pipelineFunctions || {}).forEach((grp) => {
     Object.entries(grp).forEach(([name, val]) => {

@@ -1,12 +1,12 @@
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
-import {
+import type {
   AppSyncSimulatorDataSourceConfig,
   AppSyncSimulatorDataSourceLambdaConfig,
   AppSyncSimulatorDataSourceNoneConfig,
 } from '@james-cohen/amplify-appsync-simulator';
-import { AppsyncConfig } from './models';
+import type { AppsyncConfig } from './models';
 
-const endpoint = 'http://localhost:3002';
+const DEFAULT_ENDPOINT = 'http://localhost:3002';
 
 async function invokeLambdaFunction(
   functionName: string,
@@ -23,7 +23,7 @@ async function invokeLambdaFunction(
   return client.send(command);
 }
 
-export function generateDataSources(config: AppsyncConfig) {
+export default function generateDataSources(config: AppsyncConfig) {
   const dataSources: AppSyncSimulatorDataSourceConfig[] = [];
   const dataSourceConfig = config.dataSources || [];
   dataSourceConfig.forEach((grp) => {
@@ -35,8 +35,15 @@ export function generateDataSources(config: AppsyncConfig) {
           type: 'AWS_LAMBDA',
           name,
           invoke: async (payload: Record<string, unknown>) => {
-            const response = await invokeLambdaFunction(id, payload, true, endpoint);
-            return JSON.parse(Buffer.from(response.Payload || []).toString());
+            const response = await invokeLambdaFunction(
+              id,
+              payload,
+              true,
+              DEFAULT_ENDPOINT,
+            );
+            return JSON.parse(
+              Buffer.from(response.Payload || []).toString(),
+            ) as Record<string, unknown>;
           },
         };
         dataSources.push(lambdaDataSource);
@@ -45,7 +52,7 @@ export function generateDataSources(config: AppsyncConfig) {
         const noneDataSource: AppSyncSimulatorDataSourceNoneConfig = {
           type: 'NONE',
           name,
-        }
+        };
         dataSources.push(noneDataSource);
       }
     });
