@@ -1,9 +1,9 @@
-import { AppSyncSimulatorFunctionsConfig } from '@james-cohen/amplify-appsync-simulator';
-import { AppsyncConfig } from './models';
+import type { AppSyncSimulatorFunctionsConfig } from '@james-cohen/amplify-appsync-simulator';
+import type { AppsyncConfig } from './models';
 import { transformTemplateLocation } from './vtl';
 import { reduceConfig } from './utils';
 
-export function generateFunctions(config: AppsyncConfig) {
+export default function generateFunctions(config: AppsyncConfig) {
   const functions: AppSyncSimulatorFunctionsConfig[] = [];
   const pipelineFunctionsInput = reduceConfig(config.pipelineFunctions);
   Object.entries(pipelineFunctionsInput).forEach(([name, val]) => {
@@ -11,12 +11,12 @@ export function generateFunctions(config: AppsyncConfig) {
       dataSourceName: val.dataSource,
       name,
       requestMappingTemplateLocation: transformTemplateLocation(
-          val.code,
-          'req',
-        ),
-        responseMappingTemplateLocation: transformTemplateLocation(
-          val.code,
-          'res',
+        val.code,
+        'req',
+      ),
+      responseMappingTemplateLocation: transformTemplateLocation(
+        val.code,
+        'res',
       ),
     };
     functions.push(func);

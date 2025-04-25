@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import { AmplifyAppSyncSimulator } from '@james-cohen/amplify-appsync-simulator';
-import Serverless from 'serverless';
-import { getSimulatorConfig } from './config';
+import type Serverless from 'serverless';
+import getSimulatorConfig from './config';
 import { createLocalTunnel, stopLocalTunnel } from './localhostTunnel';
 
 const DEFAULT_PORT = 3000;
@@ -18,7 +19,7 @@ class AppsyncSimulator {
     useDotEnv?: boolean;
   };
 
-  hooks: { [key: string]: Function };
+  hooks: { [key: string]: () => void };
 
   simulator: AmplifyAppSyncSimulator;
 
@@ -26,9 +27,12 @@ class AppsyncSimulator {
 
   constructor(serverless: Serverless) {
     this.serverless = serverless;
-    const config: Record<string, unknown> = serverless.service.custom?.appsyncSimulator || {};
-    let ngrokDomain;
-    let ngrokAuth;
+    const config = (serverless.service.custom.appsyncSimulator || {}) as Record<
+      string,
+      unknown
+    >;
+    let ngrokDomain: string | undefined;
+    let ngrokAuth: string | undefined;
     if (config.useDotEnv) {
       const rawDomain = process.env.NGROK_DOMAIN || config.ngrokDomain;
       const rawAuth = process.env.NGROK_AUTH || config.ngrokAuth;
@@ -57,15 +61,14 @@ class AppsyncSimulator {
   }
 
   initServer() {
-    this.simulator.init(
-      getSimulatorConfig(
-        this.serverless.service.initialServerlessConfig.appSync,
-      ),
-    );
+    this.simulator.init(getSimulatorConfig(this.serverless));
     this.simulator
       .start()
       .then(() => {
-        console.log('Appsync simulator running on localhost port:', this.config.port);
+        console.log(
+          'Appsync simulator running on localhost port:',
+          this.config.port,
+        );
         if (this.config.tunnel) {
           createLocalTunnel({
             port: this.config.port,
@@ -74,30 +77,72 @@ class AppsyncSimulator {
           })
             .then((listener) => {
               this.tunnelUrl = listener.url() || '';
-              console.log('Ngrok tunnel running at url:', this.tunnelUrl || 'unknown');
+              console.log(
+                'Ngrok tunnel running at url:',
+                this.tunnelUrl || 'unknown',
+              );
             })
-            .catch((err) => console.warn('Error creating ngrok tunnel:', err?.message || 'Unknown error'));
+            .catch((error) => {
+              console.warn(
+                'Error creating ngrok tunnel:',
+                (error as Error).message || 'Unknown error',
+              );
+            });
         }
       })
       .catch((err) => {
         console.warn(err);
-        this.simulator.stop().then(() => console.log('Appsync simulator stopped'));
+        this.simulator
+          .stop()
+          .then(() => {
+            console.log('Appsync simulator stopped');
+          })
+          .catch((error) => {
+            console.warn(
+              'Error stopping appsync simulator:',
+              (error as Error).message || 'Unknown error',
+            );
+          });
         if (this.tunnelUrl) {
           stopLocalTunnel(this.tunnelUrl)
-            .then(() => console.log('Ngrok tunnel at ', this.tunnelUrl, 'stopped'))
-            .catch((err) => console.warn('Error stopping ngrok tunnel:', err?.message || 'Unknown error'))
+            .then(() => {
+              console.log('Ngrok tunnel at ', this.tunnelUrl, 'stopped');
+            })
+            .catch((error) => {
+              console.warn(
+                'Error stopping ngrok tunnel:',
+                (error as Error).message || 'Unknown error',
+              );
+            });
         }
       });
   }
 
   teardownServer() {
-    this.simulator.stop().then(() => console.log('Appsync simulator stopped'));
+    this.simulator
+      .stop()
+      .then(() => {
+        console.log('Appsync simulator stopped');
+      })
+      .catch((error) => {
+        console.warn(
+          'Error stopping appsync simulator:',
+          (error as Error).message || 'Unknown error',
+        );
+      });
     if (this.tunnelUrl) {
       stopLocalTunnel(this.tunnelUrl)
-        .then(() => console.log('Ngrok tunnel at ', this.tunnelUrl, 'stopped'))
-        .catch((err) => console.warn('Error stopping ngrok tunnel:', err?.message || 'Unknown error'))
+        .then(() => {
+          console.log('Ngrok tunnel at ', this.tunnelUrl, 'stopped');
+        })
+        .catch((error) => {
+          console.warn(
+            'Error stopping ngrok tunnel:',
+            (error as Error).message || 'Unknown error',
+          );
+        });
     }
   }
 }
 
-module.exports = AppsyncSimulator;
+export default AppsyncSimulator;

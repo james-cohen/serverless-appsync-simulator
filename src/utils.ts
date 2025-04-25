@@ -1,4 +1,7 @@
-export function reduceConfig<T>(config: Record<string, T> | Array<Record<string, T>> | undefined) {
+// eslint-disable-next-line import/prefer-default-export
+export function reduceConfig<T>(
+  config: Record<string, T> | Array<Record<string, T>> | undefined,
+) {
   if (!config) {
     return {};
   }

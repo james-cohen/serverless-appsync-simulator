@@ -1,26 +1,29 @@
-import {
-  AmplifyAppSyncSimulatorAuthenticationType,
-  AmplifyAppSyncSimulatorConfig,
-} from '@james-cohen/amplify-appsync-simulator';
-import { constructGraphqlSchema } from './schema';
-import { generateDataSources } from './dataSources';
-import { generateResolvers } from './resolvers';
-import { AppsyncConfig } from './models';
-import { generateFunctions } from './functions';
+import type { AmplifyAppSyncSimulatorConfig } from '@james-cohen/amplify-appsync-simulator';
+import { AmplifyAppSyncSimulatorAuthenticationType } from '@james-cohen/amplify-appsync-simulator';
+import type Serverless from 'serverless';
+import constructGraphqlSchema from './schema';
+import generateDataSources from './dataSources';
+import generateResolvers from './resolvers';
+import type { AppsyncConfig } from './models';
+import generateFunctions from './functions';
 import { loadMappingTemplates } from './vtl';
-import Serverless from 'serverless';
 
-export function getSimulatorConfig(
+export default function getSimulatorConfig(
   sls: Serverless,
 ): AmplifyAppSyncSimulatorConfig {
-  const config: AppsyncConfig = sls.service.initialServerlessConfig.appSync;
+  const slsConfig = sls.service.initialServerlessConfig as Record<
+    string,
+    unknown
+  >;
+  const config = slsConfig.appSync as AppsyncConfig;
   return {
     appSync: {
       defaultAuthenticationType: {
-        authenticationType: AmplifyAppSyncSimulatorAuthenticationType.AWS_LAMBDA,
+        authenticationType:
+          AmplifyAppSyncSimulatorAuthenticationType.AWS_LAMBDA,
         lambdaAuthorizerConfig: {
-          AuthorizerUri: 'test'
-        }
+          AuthorizerUri: 'test',
+        },
       },
       apiKey: 'da2-fakeApiId123456',
       name: 'test',

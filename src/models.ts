@@ -1,4 +1,4 @@
-import {
+import type {
   RESOLVER_KIND,
   AmplifyAppSyncSimulatorAuthenticationType,
 } from '@james-cohen/amplify-appsync-simulator';
@@ -38,7 +38,7 @@ interface DataSourceRelationalDatabaseConfig {
 
 interface DataSourceNoneConfig {
   type: 'NONE';
-  description: string; 
+  description: string;
 }
 
 type DataSourceConfig =
@@ -68,7 +68,11 @@ export interface AppsyncConfig {
     config: AuthorizerConfig;
   };
   substitutions?: Record<string, string>;
-  dataSources?: Array<Record<string, DataSourceConfig>> | Record<string, DataSourceConfig>;
-  pipelineFunctions?: Array<Record<string, PipelineFunction>> | Record<string, PipelineFunction>;
+  dataSources?:
+    | Array<Record<string, DataSourceConfig>>
+    | Record<string, DataSourceConfig>;
+  pipelineFunctions?:
+    | Array<Record<string, PipelineFunction>>
+    | Record<string, PipelineFunction>;
   resolvers: Array<Record<string, Resolver>> | Record<string, Resolver>;
 }

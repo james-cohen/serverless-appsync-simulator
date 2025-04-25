@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import { AppSyncMockFile } from '@james-cohen/amplify-appsync-simulator';
-import { AppsyncConfig } from './models';
+import type { AppSyncMockFile } from '@james-cohen/amplify-appsync-simulator';
+import type { AppsyncConfig } from './models';
 import { reduceConfig } from './utils';
 
 export const defaultRequestTemplate = `{}`;
@@ -20,21 +20,21 @@ export function loadMappingTemplates(config: AppsyncConfig) {
   Object.values(resolversInput).forEach((resolver) => {
     const { code } = resolver;
     if (code) {
-        const reqPath = transformTemplateLocation(code, 'req');
-        const resPath = transformTemplateLocation(code, 'res');
-        templatePaths.push(reqPath);
-        templatePaths.push(resPath);
+      const reqPath = transformTemplateLocation(code, 'req');
+      const resPath = transformTemplateLocation(code, 'res');
+      templatePaths.push(reqPath);
+      templatePaths.push(resPath);
     }
   });
   const pipelineFunctionsInput = reduceConfig(config.pipelineFunctions);
   Object.values(pipelineFunctionsInput).forEach((val) => {
-      const { code } = val;
-      if (code) {
-        const reqPath = transformTemplateLocation(code, 'req');
-        const resPath = transformTemplateLocation(code, 'res');
-        templatePaths.push(reqPath);
-        templatePaths.push(resPath);
-      }
+    const { code } = val;
+    if (code) {
+      const reqPath = transformTemplateLocation(code, 'req');
+      const resPath = transformTemplateLocation(code, 'res');
+      templatePaths.push(reqPath);
+      templatePaths.push(resPath);
+    }
   });
   const uniquePaths = [...new Set(templatePaths)];
   return uniquePaths.map((path) => ({
