@@ -7,17 +7,19 @@ import { createLocalTunnel, stopLocalTunnel } from './localhostTunnel';
 const DEFAULT_PORT = 3000;
 const DEFAULT_WSPORT = 3001;
 
+interface AppsyncSimulatorConfig {
+  port?: number;
+  wsPort?: number;
+  tunnel?: boolean;
+  ngrokAuth?: string;
+  ngrokDomain?: string;
+  useDotEnv?: boolean;
+}
+
 class AppsyncSimulator {
   serverless: Serverless;
 
-  config: {
-    port: number;
-    wsPort: number;
-    tunnel: boolean;
-    ngrokAuth?: string;
-    ngrokDomain?: string;
-    useDotEnv?: boolean;
-  };
+  config: AppsyncSimulatorConfig;
 
   hooks: { [key: string]: () => void };
 
@@ -29,18 +31,18 @@ class AppsyncSimulator {
     this.serverless = serverless;
     const config = (serverless.service.custom.appsyncSimulator || {}) as Record<
       string,
-      unknown
+      string
     >;
     let ngrokDomain: string | undefined;
     let ngrokAuth: string | undefined;
     if (config.useDotEnv) {
       const rawDomain = process.env.NGROK_DOMAIN || config.ngrokDomain;
       const rawAuth = process.env.NGROK_AUTH || config.ngrokAuth;
-      ngrokDomain = rawDomain ? String(rawDomain) : undefined;
-      ngrokAuth = rawAuth ? String(rawAuth) : undefined;
+      ngrokDomain = rawDomain || undefined;
+      ngrokAuth = rawAuth || undefined;
     } else {
-      ngrokDomain = config.ngrokAuth ? String(config.ngrokAuth) : undefined;
-      ngrokAuth = config.ngrokDomain ? String(config.ngrokDomain) : undefined;
+      ngrokDomain = config.ngrokAuth || undefined;
+      ngrokAuth = config.ngrokDomain || undefined;
     }
     this.config = {
       port: Number(config.port || DEFAULT_PORT),
@@ -71,7 +73,7 @@ class AppsyncSimulator {
         );
         if (this.config.tunnel) {
           createLocalTunnel({
-            port: this.config.port,
+            port: this.config.port || DEFAULT_PORT,
             authtoken: this.config.ngrokAuth,
             domain: this.config.ngrokDomain,
           })
