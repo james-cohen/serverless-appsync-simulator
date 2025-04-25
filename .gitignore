@@ -129,6 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 */.yarn
+.yarn/sdks
 
 # Amplify explorer build
 amplify-explorer-clone/build
