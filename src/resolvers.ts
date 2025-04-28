@@ -5,8 +5,8 @@ import type {
 import { RESOLVER_KIND } from '@james-cohen/amplify-appsync-simulator';
 import type { AppsyncConfig } from './models';
 import {
-  defaultRequestTemplate,
-  defaultResponseTemplate,
+  DEFAULT_REQUEST_TEMPLATE,
+  DEFAULT_RESPONSE_TEMPLATE,
   transformTemplateLocation,
 } from './vtl';
 import { reduceConfig } from './utils';
@@ -33,8 +33,8 @@ export default function generateResolvers(config: AppsyncConfig) {
         responseMappingTemplateLocation: code
           ? transformTemplateLocation(code, 'res')
           : undefined,
-        requestMappingTemplate: code ? undefined : defaultRequestTemplate,
-        responseMappingTemplate: code ? undefined : defaultResponseTemplate,
+        requestMappingTemplate: code ? undefined : DEFAULT_REQUEST_TEMPLATE,
+        responseMappingTemplate: code ? undefined : DEFAULT_RESPONSE_TEMPLATE,
       };
       resolvers.push(pipeline);
     }
@@ -59,8 +59,8 @@ export default function generateResolvers(config: AppsyncConfig) {
         responseMappingTemplateLocation: code
           ? transformTemplateLocation(code, 'res')
           : undefined,
-        requestMappingTemplate: code ? undefined : defaultRequestTemplate,
-        responseMappingTemplate: code ? undefined : defaultResponseTemplate,
+        requestMappingTemplate: code ? undefined : DEFAULT_REQUEST_TEMPLATE,
+        responseMappingTemplate: code ? undefined : DEFAULT_RESPONSE_TEMPLATE,
       };
       resolvers.push(unit);
     }

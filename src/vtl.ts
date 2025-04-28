@@ -3,8 +3,8 @@ import type { AppSyncMockFile } from '@james-cohen/amplify-appsync-simulator';
 import type { AppsyncConfig } from './models';
 import { reduceConfig } from './utils';
 
-export const defaultRequestTemplate = `{}`;
-export const defaultResponseTemplate = `$util.toJson($ctx.prev.result)`;
+export const DEFAULT_REQUEST_TEMPLATE = `{}`;
+export const DEFAULT_RESPONSE_TEMPLATE = `$util.toJson($ctx.prev.result)`;
 
 // HACK: Appsync simulator doesn't support JS resolvers yet. Temp VTL version required
 export function transformTemplateLocation(path: string, type: 'req' | 'res') {
