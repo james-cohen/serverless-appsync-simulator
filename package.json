@@ -5,8 +5,9 @@
   "license": "MIT",
   "author": "james-cohen",
   "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup src/index.ts --outDir dist --format cjs --platform node --dts",
     "test": "jest"
   },
   "repository": {
@@ -16,6 +17,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist"
+  ],
   "jest": {
     "transform": {
       "^.+\\.(ts|tsx)$": "jest-esbuild"
@@ -38,6 +42,7 @@
     "jest-esbuild": "^0.3.0",
     "prettier": "^3.5.3",
     "ts-jest": "^29.3.2",
+    "tsup": "^8.4.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {
