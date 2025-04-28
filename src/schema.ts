@@ -1,29 +1,12 @@
 import * as fs from 'fs';
-import { globSync } from 'glob';
 import type { AppsyncConfig } from './models';
-
-function getFilesFromGlobs(globs: string[]) {
-  const allFiles: string[] = [];
-  globs.forEach((pattern) => {
-    // If the pattern starts with '!', it's intended to exclude files. We handle it separately.
-    if (pattern.startsWith('!')) {
-      const filesToRemove = globSync(pattern.slice(1));
-      filesToRemove.forEach((fileToRemove) => {
-        const index = allFiles.indexOf(fileToRemove);
-        if (index !== -1) {
-          allFiles.splice(index, 1);
-        }
-      });
-    } else {
-      const filesToAdd = globSync(pattern);
-      allFiles.push(...filesToAdd);
-    }
-  });
-  return new Set([...allFiles]);
-}
+import { getFilesFromGlobs } from './utils';
 
 export default function constructGraphqlSchema(config: AppsyncConfig) {
-  const schemaPaths = getFilesFromGlobs(config.schema);
+  const globs = Array.isArray(config.schema) ? config.schema : [config.schema];
+  const schemaPaths = getFilesFromGlobs(globs).filter(
+    (path) => path.endsWith('.graphql') || path.endsWith('.gql'),
+  );
   let schema = '';
   schemaPaths.forEach((path) => {
     const fileContent = fs.readFileSync(path, 'utf-8');

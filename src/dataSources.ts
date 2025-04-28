@@ -36,9 +36,9 @@ export default function generateDataSources(
     const resolvers = reduceConfig(config.resolvers);
     Object.entries(resolvers).forEach(([name, resolver]) => {
       if (
-        resolver.type === 'AWS_LAMBDA' &&
         resolver.dataSource &&
-        typeof resolver.dataSource !== 'string'
+        typeof resolver.dataSource !== 'string' &&
+        resolver.dataSource.type === 'AWS_LAMBDA'
       ) {
         const dataSourceName = `${name}Lambda`;
         dataSourceConfig[dataSourceName] = resolver.dataSource;
@@ -67,7 +67,7 @@ export default function generateDataSources(
       dataSources.push(lambdaDataSource);
     }
     if (val.type === 'AWS_LAMBDA' && val.config.function) {
-      const serviceName = service.getServiceName();
+      const serviceName = service.service;
       const { stage } = service.provider;
       const functionName = `${serviceName}-${stage}-${name}`;
       const lambdaDataSource: AppSyncSimulatorDataSourceLambdaConfig = {

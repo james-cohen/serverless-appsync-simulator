@@ -62,7 +62,7 @@ interface Resolver {
 
 export interface AppsyncConfig {
   name: string;
-  schema: string[];
+  schema: string | string[];
   authentication: {
     type: AmplifyAppSyncSimulatorAuthenticationType;
     config: AuthorizerConfig;
