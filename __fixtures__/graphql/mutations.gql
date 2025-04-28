@@ -1,0 +1,7 @@
+extend type Mutation {
+  testMutation(input: TestMutationInput): String
+}
+
+input TestMutationInput {
+  test: String
+}

@@ -1,0 +1,72 @@
+service: test-api
+
+plugins:
+  - serverless-appsync-plugin
+  - "@james-cohen/serverless-appsync-simulator"
+  - serverless-offline
+
+package:
+  individually: true
+
+custom:
+  serverless-offline:
+    printOutput: true
+    useChildProcesses: true
+    allowCache: true
+    reloadHandler: true
+    httpPort: 4000
+  appsyncSimulator:
+    port: 3000
+    wsPort: 3001
+    tunnel: true
+    useDotEnv: true
+
+appSync:
+  name: appsync-simulator-test
+  schema:
+    - __fixtures__/graphql/queries.gql
+    - __fixtures__/graphql/mutations.gql
+    - __fixtures__/graphql/schema.graphql
+  authentication:
+    type: AWS_LAMBDA
+    config:
+      functionArn: arn:aws:lambda:eu-west-2:000000000000:function:appsyncAuth
+      authorizerResultTtlInSeconds: 600
+  dataSources:
+    testQueryLambda:
+      type: AWS_LAMBDA
+      description: Test Lambda
+      config:
+        functionArn: arn:aws:lambda:eu-west-2:000000000000:function:test-api-dev-testLambdaOne
+        serviceRoleArn: &defaultRole arn:aws:iam::000000000000:role/test-api-dev-appsync
+    testMutationLambda:
+      type: AWS_LAMBDA
+      description: Test Lambda Two
+      config:
+        functionArn: arn:aws:lambda:eu-west-2:000000000000:function:test-api-dev-testLambdaTwo
+        serviceRoleArn: *defaultRole
+  resolvers:
+    Query.testQuery:
+      kind: UNIT
+      dataSource: testQueryLambda
+      code: __fixtures__/resolvers/default.ts
+    Mutation.testMutation:
+      kind: UNIT
+      dataSource: testMutationLambda
+      code: __fixtures__/resolvers/default.ts
+
+functions:
+  testQuery:
+    handler: __fixtures__/handlers/testQuery.handler
+  testMutation:
+    handler: __fixtures__/handlers/testMutation.handler
+
+provider:
+  name: aws
+  profile: test
+  deploymentMethod: direct
+  versionFunctions: false
+  runtime: nodejs22.x
+  memorySize: 1536
+  region: eu-west-2
+  stage: dev

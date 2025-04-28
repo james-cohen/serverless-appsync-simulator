@@ -6,7 +6,8 @@
   "author": "james-cohen",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,8 +16,15 @@
   "publishConfig": {
     "access": "public"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "jest-esbuild"
+    },
+    "testEnvironment": "node"
+  },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.12.12",
     "@types/serverless": "^3.12.22",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -26,14 +34,18 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.3",
+    "jest": "^29.7.0",
+    "jest-esbuild": "^0.3.0",
     "prettier": "^3.5.3",
+    "ts-jest": "^29.3.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
     "@aws-sdk/client-lambda": "^3.634.0",
     "@james-cohen/amplify-appsync-simulator": "^1.1.1",
     "@ngrok/ngrok": "^1.4.1",
-    "glob": "^11.0.0"
+    "glob": "^11.0.0",
+    "yaml": "^2.7.1"
   },
   "peerDependencies": {
     "serverless": "^3.0.0 || ^4.0.0",
