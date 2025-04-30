@@ -48,10 +48,10 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@aws-sdk/client-lambda": "^3.634.0",
+    "@aws-sdk/client-lambda": "^3.799.0",
     "@james-cohen/amplify-appsync-simulator": "^1.1.1",
-    "@ngrok/ngrok": "^1.4.1",
-    "glob": "^11.0.0",
+    "@ngrok/ngrok": "1.4.1",
+    "glob": "^11.0.2",
     "yaml": "^2.7.1"
   },
   "peerDependencies": {
