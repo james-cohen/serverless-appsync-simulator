@@ -147,4 +147,4 @@ class AppsyncSimulator {
   }
 }
 
-export default AppsyncSimulator;
+export = AppsyncSimulator;
